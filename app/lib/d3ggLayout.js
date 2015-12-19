@@ -36,7 +36,7 @@ Array.prototype.last = function() {
 function getTangibles(length, successFunc) {
   console.log("getTangibles length", length);
   $.ajax({
-    url: "http://localhost:8080/CamCapture/AjaxTypeServlett?callback=?",
+    url: "http://localhost:8080/CamCapture/AjaxTypeServlet?callback=?",
     type: "get",
     data: {length: length},
     dataType: "jsonp",
@@ -391,6 +391,7 @@ function update(props, state, that, nbs) {
             console.log("New response server", types);
             console.log("oldTypes", state.types);
             var type = myDiffList(state.types, types);
+            state.type = type;
             console.log("type", type);
             // var type = "Keyword";
             state.types = types;
@@ -415,6 +416,12 @@ function update(props, state, that, nbs) {
         props.forward = false;
         state.dataStack.pop();
 
+        console.log("type before", state.type);
+        console.log("state types before", state.types);
+        var index = state.types.indexOf(state.type);
+        state.types.splice(index, 1);
+        console.log("state types after", state.types);
+        
         // send path to parent component
         props.getPath(props.path);
         state.dataStack.last().forEach(e => {
